@@ -71,7 +71,7 @@ class FCMService : FirebaseMessagingService() {
    */
   @Throws(JSONException::class)
   fun showNotification(notification: JSONObject) {
-    var extras = new Bundle();
+    var extras = Bundle();
 
     for (i in 0 until notification.names().length()) {
       var name = notification.names().getString(i);

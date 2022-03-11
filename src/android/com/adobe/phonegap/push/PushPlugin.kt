@@ -784,7 +784,7 @@ class PushPlugin : CordovaPlugin() {
     cordova.threadPool.execute {
       try {
         Log.v(TAG, "Execute::ShowNotification")
-        FCMService.showNotification(data.getJSONObject(0))
+        FCMService().showNotification(data.getJSONObject(0))
         callbackContext.success()
       } catch (e: JSONException) {
         callbackContext.error(e.message)

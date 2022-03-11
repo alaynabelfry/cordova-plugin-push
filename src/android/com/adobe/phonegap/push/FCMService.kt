@@ -63,6 +63,29 @@ class FCMService : FirebaseMessagingService() {
     )
 
   /**
+   * Show Notification
+   * Manually trigger a notification to be shown in the foreground.
+   *
+   * 
+   * @param notification
+   */
+  @Throws(JSONException::class)
+  fun showNotification(notification: JSONObject) {
+    var extras = new Bundle();
+
+    for (i in 0 until notification.names().length()) {
+      var name = notification.names().getString(i);
+
+      // Do not add empty extras
+      if (notification.optString(name) != null && !notification.optString(name).equals("")) {
+            extras.putString(name, notification.optString(name));
+        }
+    }
+    
+    showNotificationIfPossible(extras);
+  }
+
+  /**
    * Set Notification
    * If message is empty or null, the message list is cleared.
    *

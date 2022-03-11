@@ -419,6 +419,7 @@ class PushPlugin : CordovaPlugin() {
       PushConstants.DELETE_CHANNEL -> executeActionDeleteChannel(data, callbackContext)
       PushConstants.LIST_CHANNELS -> executeActionListChannels(callbackContext)
       PushConstants.CLEAR_NOTIFICATION -> executeActionClearNotification(data, callbackContext)
+      PushConstants.SHOW_NOTIFICATION -> executeActionShowNotification(data, callbackContext)
       else -> {
         Log.e(TAG, "Execute: Invalid Action $action")
         callbackContext.sendPluginResult(PluginResult(PluginResult.Status.INVALID_ACTION))
@@ -772,6 +773,18 @@ class PushPlugin : CordovaPlugin() {
         val notificationId = data.getInt(0)
         Log.v(TAG, "Execute::ClearNotification notificationId=$notificationId")
         clearNotification(notificationId)
+        callbackContext.success()
+      } catch (e: JSONException) {
+        callbackContext.error(e.message)
+      }
+    }
+  }
+
+    private fun executeActionShowNotification(data: JSONArray, callbackContext: CallbackContext) {
+    cordova.threadPool.execute {
+      try {
+        Log.v(TAG, "Execute::ShowNotification")
+        FCMService.showNotification(data.getJSONObject(0))
         callbackContext.success()
       } catch (e: JSONException) {
         callbackContext.error(e.message)
